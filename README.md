@@ -19,7 +19,7 @@ Authentication and ticket data are simulated using **localStorage**, making this
 
 ## 📸 Screenshot
 
-![Tickety Dashboard Screenshot](./image.png)
+![Tickety Dashboard Screenshot](./public/image.png)
 
 ---
 
