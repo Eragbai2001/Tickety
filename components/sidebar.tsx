@@ -59,10 +59,10 @@ const Sidebar = ({ toggle, visible, onToggle, onClose }: Props) => {
     }
     // navigate then force a quick reload to avoid stale UI state
     try {
-      await router.push('/');
+      await router.push("/");
     } catch (err) {
       // if router push fails, fallback to hard navigation
-      window.location.href = '/';
+      window.location.href = "/";
       return;
     }
     // slight delay to allow navigation; then reload to ensure fresh UI
@@ -90,7 +90,10 @@ const Sidebar = ({ toggle, visible, onToggle, onClose }: Props) => {
           className={`flex items-center gap-2 border-b border-gray-100 ${
             toggle ? "flex-col px-5 py-3" : "justify-between p-5 max-md:py-4"
           }`}>
-          <Link className="flex items-center" href="/" onClick={handleHomeClick}>
+          <Link
+            className="flex items-center"
+            href="/"
+            onClick={handleHomeClick}>
             <Image
               className="w-8 opacity-100"
               src="/images/logo.png"
@@ -112,7 +115,6 @@ const Sidebar = ({ toggle, visible, onToggle, onClose }: Props) => {
               onClick={handleToggleClick}
             />
           )}
-         
         </div>
         <div className="flex flex-col p-4 pt-5 grow overflow-y-auto scrollbar-none">
           {!toggle && <SearchModal className="mb-4 max-xl:hidden" />}

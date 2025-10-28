@@ -170,24 +170,24 @@ const TicketsPage = () => {
     <>
       <ProtectedRoute>
         <Layout title="Tickets">
-        <Breadcrumbs items={["Management", "Tickets"]}>
-          <div className="flex items-center gap-3">
-            <Button isPrimary isMedium onClick={() => setIsModalOpen(true)}>
-              Create New Ticket
-            </Button>
+          <Breadcrumbs items={["Management", "Tickets"]}>
+            <div className="flex items-center gap-3">
+              <Button isPrimary isMedium onClick={() => setIsModalOpen(true)}>
+                Create New Ticket
+              </Button>
+            </div>
+          </Breadcrumbs>
+
+          <Cards items={statsCards} />
+
+          {/* Management: structured table view */}
+          <div id="tickets" className="mt-6">
+            <TicketsTable
+              tickets={tickets}
+              onEdit={(t) => handleEdit(t)}
+              onDelete={(id) => requestDelete(id)}
+            />
           </div>
-        </Breadcrumbs>
-
-        <Cards items={statsCards} />
-
-        {/* Management: structured table view */}
-        <div id="tickets" className="mt-6">
-          <TicketsTable
-            tickets={tickets}
-            onEdit={(t) => handleEdit(t)}
-            onDelete={(id) => requestDelete(id)}
-          />
-        </div>
         </Layout>
       </ProtectedRoute>
 

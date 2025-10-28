@@ -9,7 +9,10 @@ type Props = {
   redirectTo?: string;
 };
 
-export default function ProtectedRoute({ children, redirectTo = "/sign-in" }: Props) {
+export default function ProtectedRoute({
+  children,
+  redirectTo = "/sign-in",
+}: Props) {
   const router = useRouter();
   const [checked, setChecked] = useState(false);
 

@@ -15,17 +15,17 @@ export interface AuthResponse {
 }
 
 // Simulate network delay
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Get all users from localStorage
 const getUsers = (): User[] => {
-  const users = localStorage.getItem('users');
+  const users = localStorage.getItem("users");
   return users ? JSON.parse(users) : [];
 };
 
 // Save users to localStorage
 const saveUsers = (users: User[]) => {
-  localStorage.setItem('users', JSON.stringify(users));
+  localStorage.setItem("users", JSON.stringify(users));
 };
 
 // Generate a simple token
@@ -40,7 +40,10 @@ export const getAuthToken = (): string | null => {
 };
 
 // Validate token age (default TTL: 7 days)
-export const validateToken = (token?: string, ttlMs = 1000 * 60 * 60 * 24 * 7): boolean => {
+export const validateToken = (
+  token?: string,
+  ttlMs = 1000 * 60 * 60 * 24 * 7
+): boolean => {
   const t = token || getAuthToken();
   if (!t) return false;
   try {
@@ -66,17 +69,17 @@ export const signUp = async (
   const users = getUsers();
 
   // Check if user already exists
-  if (users.some(u => u.email === email)) {
+  if (users.some((u) => u.email === email)) {
     return {
       success: false,
-      message: 'An account with this email already exists',
+      message: "An account with this email already exists",
     };
   }
 
-  if (users.some(u => u.username === username)) {
+  if (users.some((u) => u.username === username)) {
     return {
       success: false,
-      message: 'This username is already taken',
+      message: "This username is already taken",
     };
   }
 
@@ -92,12 +95,12 @@ export const signUp = async (
   saveUsers(users);
 
   // Store password separately (in real app, this would be hashed server-side)
-  const passwords = JSON.parse(localStorage.getItem('passwords') || '{}');
+  const passwords = JSON.parse(localStorage.getItem("passwords") || "{}");
   passwords[newUser.id] = password;
-  localStorage.setItem('passwords', JSON.stringify(passwords));
+  localStorage.setItem("passwords", JSON.stringify(passwords));
 
   const token = generateToken(newUser.id);
-  localStorage.setItem('authToken', token);
+  localStorage.setItem("authToken", token);
   // set a cookie as well so middleware can read it on server/edge
   try {
     const ttlSec = 60 * 60 * 24 * 7; // 7 days
@@ -105,13 +108,13 @@ export const signUp = async (
   } catch (e) {
     // ignore when not available
   }
-  localStorage.setItem('currentUser', JSON.stringify(newUser));
+  localStorage.setItem("currentUser", JSON.stringify(newUser));
 
   return {
     success: true,
     user: newUser,
     token,
-    message: 'Account created successfully',
+    message: "Account created successfully",
   };
 };
 
@@ -123,46 +126,46 @@ export const signIn = async (
   await delay(800); // Simulate network delay
 
   const users = getUsers();
-  const user = users.find(u => u.email === email);
+  const user = users.find((u) => u.email === email);
 
   if (!user) {
     return {
       success: false,
-      message: 'Invalid email or password',
+      message: "Invalid email or password",
     };
   }
 
   // Check password
-  const passwords = JSON.parse(localStorage.getItem('passwords') || '{}');
+  const passwords = JSON.parse(localStorage.getItem("passwords") || "{}");
   if (passwords[user.id] !== password) {
     return {
       success: false,
-      message: 'Invalid email or password',
+      message: "Invalid email or password",
     };
   }
 
   const token = generateToken(user.id);
-  localStorage.setItem('authToken', token);
+  localStorage.setItem("authToken", token);
   try {
     const ttlSec = 60 * 60 * 24 * 7; // 7 days
     document.cookie = `authToken=${token}; path=/; max-age=${ttlSec}; SameSite=Lax`;
   } catch (e) {
     // ignore when not available
   }
-  localStorage.setItem('currentUser', JSON.stringify(user));
+  localStorage.setItem("currentUser", JSON.stringify(user));
 
   return {
     success: true,
     user,
     token,
-    message: 'Logged in successfully',
+    message: "Logged in successfully",
   };
 };
 
 // Sign out
 export const signOut = () => {
-  localStorage.removeItem('authToken');
-  localStorage.removeItem('currentUser');
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("currentUser");
   try {
     // remove cookie
     document.cookie = `authToken=; path=/; max-age=0; SameSite=Lax`;
@@ -173,11 +176,11 @@ export const signOut = () => {
 
 // Get current user
 export const getCurrentUser = (): User | null => {
-  const userStr = localStorage.getItem('currentUser');
+  const userStr = localStorage.getItem("currentUser");
   return userStr ? JSON.parse(userStr) : null;
 };
 
 // Check if user is authenticated
 export const isAuthenticated = (): boolean => {
-  return !!localStorage.getItem('authToken');
+  return !!localStorage.getItem("authToken");
 };
