@@ -30,7 +30,29 @@ const saveUsers = (users: User[]) => {
 
 // Generate a simple token
 const generateToken = (userId: string): string => {
+  // token format: base64(userId:issuedAt)
   return btoa(`${userId}:${Date.now()}`);
+};
+
+// Get raw token string
+export const getAuthToken = (): string | null => {
+  return localStorage.getItem("authToken");
+};
+
+// Validate token age (default TTL: 7 days)
+export const validateToken = (token?: string, ttlMs = 1000 * 60 * 60 * 24 * 7): boolean => {
+  const t = token || getAuthToken();
+  if (!t) return false;
+  try {
+    const decoded = atob(t);
+    const parts = decoded.split(":");
+    if (parts.length < 2) return false;
+    const issued = Number(parts[1]);
+    if (Number.isNaN(issued)) return false;
+    return Date.now() - issued < ttlMs;
+  } catch (e) {
+    return false;
+  }
 };
 
 // Sign up a new user
@@ -76,6 +98,13 @@ export const signUp = async (
 
   const token = generateToken(newUser.id);
   localStorage.setItem('authToken', token);
+  // set a cookie as well so middleware can read it on server/edge
+  try {
+    const ttlSec = 60 * 60 * 24 * 7; // 7 days
+    document.cookie = `authToken=${token}; path=/; max-age=${ttlSec}; SameSite=Lax`;
+  } catch (e) {
+    // ignore when not available
+  }
   localStorage.setItem('currentUser', JSON.stringify(newUser));
 
   return {
@@ -114,6 +143,12 @@ export const signIn = async (
 
   const token = generateToken(user.id);
   localStorage.setItem('authToken', token);
+  try {
+    const ttlSec = 60 * 60 * 24 * 7; // 7 days
+    document.cookie = `authToken=${token}; path=/; max-age=${ttlSec}; SameSite=Lax`;
+  } catch (e) {
+    // ignore when not available
+  }
   localStorage.setItem('currentUser', JSON.stringify(user));
 
   return {
@@ -128,6 +163,12 @@ export const signIn = async (
 export const signOut = () => {
   localStorage.removeItem('authToken');
   localStorage.removeItem('currentUser');
+  try {
+    // remove cookie
+    document.cookie = `authToken=; path=/; max-age=0; SameSite=Lax`;
+  } catch (e) {
+    // ignore
+  }
 };
 
 // Get current user

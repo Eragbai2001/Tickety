@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Layout from "@/app/dashboard/page";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Breadcrumbs from "@/components/Breadcrumbs/page";
 import Button from "@/components/Button/page";
 import Cards from "@/components/Cards/page";
@@ -167,7 +168,8 @@ const TicketsPage = () => {
 
   return (
     <>
-      <Layout title="Tickets">
+      <ProtectedRoute>
+        <Layout title="Tickets">
         <Breadcrumbs items={["Management", "Tickets"]}>
           <div className="flex items-center gap-3">
             <Button isPrimary isMedium onClick={() => setIsModalOpen(true)}>
@@ -186,7 +188,8 @@ const TicketsPage = () => {
             onDelete={(id) => requestDelete(id)}
           />
         </div>
-      </Layout>
+        </Layout>
+      </ProtectedRoute>
 
       <Modal
         title="New Ticket"
