@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,10 @@ export default function HeroHeader({
     if (email) {
       onGetStarted(email);
     }
+  };
+
+  const handleMobileClick = () => {
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -102,37 +107,45 @@ export default function HeroHeader({
               <div className="flex flex-col gap-4">
                 <a
                   href="#platform"
+                  onClick={handleMobileClick}
                   className="text-sm font-medium text-gray-700 hover:text-purple-600">
                   Platform
                 </a>
                 <a
                   href="#solutions"
+                  onClick={handleMobileClick}
                   className="text-sm font-medium text-gray-700 hover:text-purple-600">
                   Solutions
                 </a>
                 <a
                   href="#plans"
+                  onClick={handleMobileClick}
                   className="text-sm font-medium text-gray-700 hover:text-purple-600">
                   Plans
                 </a>
                 <a
                   href="#resources"
+                  onClick={handleMobileClick}
                   className="text-sm font-medium text-gray-700 hover:text-purple-600">
                   Resources
                 </a>
                 <a
                   href="#company"
+                  onClick={handleMobileClick}
                   className="text-sm font-medium text-gray-700 hover:text-purple-600">
                   Company
                 </a>
                 <div className="mt-4 flex flex-col gap-2">
                   <Button
                     variant="ghost"
-                    className="text-gray-700 hover:bg-gray-100">
-                    Sign up
+                    className="text-gray-700 hover:bg-gray-100"
+                    asChild>
+                    <Link href="/sign-in">Sign up</Link>
                   </Button>
-                  <Button className="bg-purple-600 text-white hover:bg-purple-700">
-                    Try for free
+                  <Button 
+                    className="bg-purple-600 text-white hover:bg-purple-700"
+                    asChild>
+                    <Link href="/sign-in">Try for free</Link>
                   </Button>
                 </div>
               </div>
