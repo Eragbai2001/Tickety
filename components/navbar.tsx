@@ -63,14 +63,10 @@ export default function Navbar({ logoSrc = "/images/logo.png" }) {
           {/* Desktop Actions */}
           <div className="hidden items-center gap-4 lg:flex">
             <Button variant="ghost" asChild>
-              <Link href="/signup">
-                Sign up
-              </Link>
+              <Link href="/signup">Sign up</Link>
             </Button>
             <Button asChild>
-              <Link href="/signup">
-                Try for free
-              </Link>
+              <Link href="/signup">Try for free</Link>
             </Button>
           </div>
 
@@ -120,13 +116,13 @@ export default function Navbar({ logoSrc = "/images/logo.png" }) {
                 Company
               </a>
               <div className="mt-4 flex flex-col gap-2">
-                <a 
+                <a
                   href="/signup"
                   className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-gray-300 bg-white hover:bg-gray-100 hover:text-purple-600 h-10 px-4 py-2 w-full"
                   onClick={handleMobileClick}>
                   Sign up
                 </a>
-                <a 
+                <a
                   href="/signup"
                   className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-purple-600 text-white hover:bg-purple-700 h-10 px-4 py-2 w-full"
                   onClick={handleMobileClick}>
